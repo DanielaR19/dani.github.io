@@ -931,7 +931,7 @@ div[data-region=mainpage] > .main-inner header > div:last-child > div:first-chil
   background-size: cover;
   background-repeat: no-repeat;
   height: 100px;
-  background-image: url(https://github.com/DanielaR19/dani.github.io/blob/main/bannerPFDR.jpg) !important; 
+  background-image: url(https://github.com/DanielaR19/dani.github.io/bannerPFDR.jpg) !important; 
 }
 div[data-region=mainpage] > .main-inner header > div:last-child > div:last-child > div:first-child {
   margin: auto !important;
