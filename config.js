@@ -7,7 +7,7 @@ let assetsArrayJs = [
         version: '?v=1.3',
         urlLocal: '/sessions-theme-2024/assets/js/main.js',
         urlDevl: 'https://documentacionebc.s3.amazonaws.com/academia/temas/sessions-theme-2024/js/main.js',
-        urlQa: 'https://documentacionebc.s3.amazonaws.com/academia/temas/sessions-theme-2024/qa/main.js',
+        urlQa: 'https://github.com/DanielaR19/dani.github.io/blob/995fdcb7ff322649bd18e28111ba448d5f90e2f9/main.js',
         urlProd: 'https://documentacionebc.s3.amazonaws.com/academia/temas/sessions-theme-2024/js/main.js'
     }
 ];
