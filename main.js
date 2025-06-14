@@ -14,6 +14,7 @@ let stateCheck = setInterval(() => {// Check document ready
     }
 }, 100);
 
+
 function customNavElements() {
     /* ----- Delete nav links don't use ----- */
     const LI_HOME = document.querySelector('nav li[data-key="home"]');
@@ -682,7 +683,10 @@ function openModalRs(e) {
     }
 
     /*--- Create resource elements ---*/
-    if (MODAL_RS_ID) {
+    jQuery.noConflict();
+    jQuery(function($){
+
+        if (MODAL_RS_ID) {
         $(MODAL_RS_ID).modal('show'); // Modal show
 
         $(MODAL_RS_ID).on('hidden.bs.modal', function (e) {
@@ -691,6 +695,9 @@ function openModalRs(e) {
         });
 
     } else { console.error('Error: modal-resource could not be found'); }
+
+    });
+    
 }
 
 function createIframeEl(IFRAME_RS, URL_RS) {
