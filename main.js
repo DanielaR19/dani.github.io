@@ -632,7 +632,7 @@ function openModalAi(e, modalId) {
     e.preventDefault(); // Prevent the link from updating the URL
 
     const MODAL_RS_ID = document.getElementById(modalId);
-    (MODAL_RS_ID) ? document.querySelector(MODAL_RS_ID).modal('show') : console.error('Error: modal could not be found'); // Modal show
+    (MODAL_RS_ID) ? $(MODAL_RS_ID).modal('show') : console.error('Error: modal could not be found'); // Modal show
 }
 
 function addListenerToRs() {
@@ -683,9 +683,9 @@ function openModalRs(e) {
 
     /*--- Create resource elements ---*/
     if (MODAL_RS_ID) {
-        document.querySelector(MODAL_RS_ID).modal('show'); // Modal show
+        $(MODAL_RS_ID).modal('show'); // Modal show
 
-        document.querySelector(MODAL_RS_ID).on('hidden.bs.modal', function (e) {
+        $(MODAL_RS_ID).on('hidden.bs.modal', function (e) {
             const MODAL_RS_ELEMENT_ID = document.getElementById('rs-element');
             if (MODAL_RS_ELEMENT_ID) MODAL_RS_BODY_ID.removeChild(MODAL_RS_ELEMENT_ID);
         });
