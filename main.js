@@ -683,11 +683,17 @@ function openModalRs(e) {
 
     /*--- Create resource elements ---*/
     if (MODAL_RS_ID) {
-        $(MODAL_RS_ID).modal('show'); // Modal show
+        /*$(MODAL_RS_ID).modal('show'); // Modal show */
+        const modal = new bootstrap.Modal(MODAL_RS_ID);
+        modal.show();
 
-        $(MODAL_RS_ID).on('hidden.bs.modal', function (e) {
+        MODAL_RS_ID.addEventListener('hidden.bs.modal', function (e) {
             const MODAL_RS_ELEMENT_ID = document.getElementById('rs-element');
             if (MODAL_RS_ELEMENT_ID) MODAL_RS_BODY_ID.removeChild(MODAL_RS_ELEMENT_ID);
+
+      /*  $(MODAL_RS_ID).on('hidden.bs.modal', function (e) {
+            const MODAL_RS_ELEMENT_ID = document.getElementById('rs-element');
+            if (MODAL_RS_ELEMENT_ID) MODAL_RS_BODY_ID.removeChild(MODAL_RS_ELEMENT_ID); */
         });
 
     } else { console.error('Error: modal-resource could not be found'); }
