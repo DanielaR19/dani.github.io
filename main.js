@@ -694,19 +694,24 @@ function addListenerToRs() {
     } else { console.error('Error: modal-resource could not be found'); }
 }*/
 
-(function(waitForjQuery) {
-    let attempts = 0;
-    const interval = setInterval(function () {
-        if (typeof window.jQuery !== 'undefined') {
-            clearInterval(interval);
-            waitForjQuery(window.jQuery);
-        } else if (++attempts > 20) {
-            clearInterval(interval);
-            console.error('❌ jQuery no está disponible después de esperar.');
-        }
-    }, 100);
+(function(callback) {
+    if (typeof window.jQuery === 'undefined') {
+        console.warn('⚠️ jQuery no detectado, inyectando desde CDN...');
+
+        var script = document.createElement('script');
+        script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
+        script.type = 'text/javascript';
+        script.onload = function() {
+            console.log('✅ jQuery cargado desde CDN');
+            callback(window.jQuery);
+        };
+        document.head.appendChild(script);
+    } else {
+        console.log('✅ jQuery ya está disponible');
+        callback(window.jQuery);
+    }
 })(function($) {
-    console.log('✅ jQuery detectado. Inicializando modal handlers...');
+    // Tu código aquí (puedes usar $ como jQuery sin problemas)
 
     function createIframeEl(id, url) {
         const iframe = document.createElement('iframe');
@@ -789,18 +794,17 @@ function addListenerToRs() {
         });
     }
 
-    // ⏳ Esperar al DOM antes de buscar los elementos
     $(document).ready(function() {
-        // Selecciona todos los elementos clicables con data-url y data-type
         $('[data-url][data-type]').each(function() {
             $(this).on('click', openModalRs);
         });
 
-        console.log('✅ Listeners de modal inyectados automáticamente');
+        console.log('✅ Listeners de modal inyectados');
     });
 });
 
 
+/*-----Codigo no cambiado -------*/
 function createIframeEl(IFRAME_RS, URL_RS) {
     const DIV_IFRAME = document.createElement('div');
     const IFRAME_BOX = document.createElement('iframe');
