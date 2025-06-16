@@ -721,7 +721,7 @@ function addListenerToRs() {
         iframe.id = 'rs-element';
         iframe.src = url;
         iframe.width = '100%';
-        iframe.height = '800'; /*modificado*/
+/*        iframe.height = '800'; */
         iframe.frameBorder = '0';
         return iframe;
     }
@@ -805,8 +805,6 @@ function addListenerToRs() {
         console.log('✅ Listeners de modal inyectados');
     });
 });
-
-window.openModalRs = openModalRs; /*Ultima modificacion*/
 
 /*-----Codigo no cambiado -------*/
 function createIframeEl(IFRAME_RS, URL_RS) {
