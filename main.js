@@ -681,6 +681,25 @@ function openModalRs(e) {
             break;
     }
 
+    (function loadBootstrapIfNeeded(callback) {
+        if (typeof bootstrap === 'undefined') {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';
+            script.onload = callback;
+            document.head.appendChild(script);
+        } else {
+            callback();
+        }
+    })(function () {
+        // Ahora bootstrap ya está disponible, puedes ejecutar tus modales aquí
+        document.body.addEventListener('click', function (e) {
+            const link = e.target.closest('a[data-url][data-type]');
+            if (!link) return;
+            openModalRs({ preventDefault: () => { }, target: link });
+        });
+    });
+
+
     /*--- Create resource elements ---*/
     if (MODAL_RS_ID) {
         /*$(MODAL_RS_ID).modal('show'); // Modal show */
