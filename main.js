@@ -649,7 +649,7 @@ function openModalRs(e) {
     const MODAL_RS_BODY_ID = document.getElementById('modal-resource-body');
 
     /*--- Create resource elements ---*/
-/*    switch (RS_TYPE) {
+    switch (RS_TYPE) {
         case 'iframe':
             const IFRAME_RS = e.target.getAttribute('iframe-rs');
             const IFRAME_ELEMENT = createIframeEl(IFRAME_RS, URL_RS);
@@ -684,8 +684,8 @@ function openModalRs(e) {
     /*--- Create resource elements ---*/
     if (MODAL_RS_ID) {
         /*$(MODAL_RS_ID).modal('show'); // Modal show */
-        const modal = new bootstrap.Modal(document.getElementById('rs-element'));
-modal.show();
+        const modal = new bootstrap.Modal(MODAL_RS_ID);
+        modal.show();
 
 
         $(MODAL_RS_ID).on('hidden.bs.modal', function (e) {
