@@ -697,7 +697,7 @@ function addListenerToRs() {
     } else { console.error('Error: modal-resource could not be found'); }
 }*/
 
-/*(function(callback) {
+(function(callback) {
     if (typeof window.jQuery === 'undefined') {
         console.warn('⚠️ jQuery no detectado, inyectando desde CDN...');
 
@@ -878,110 +878,3 @@ function createVideoEl(URL_RS) {
 
     return VIDEO_BOX;
 }
-
-(function initBootstrapModalSupport() {
-  // Paso 1: Cargar Bootstrap si no está
-  if (typeof bootstrap === 'undefined') {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';
-    script.onload = setupEventListeners;
-    document.head.appendChild(script);
-  } else {
-    setupEventListeners();
-  }
-
-  // Paso 2: Cuando Bootstrap esté listo, activamos los eventos
-  function setupEventListeners() {
-    document.body.addEventListener('click', function (e) {
-      const link = e.target.closest('a[data-url][data-type]');
-      if (link) {
-        e.preventDefault();
-        openModalRs(link);
-      }
-    });
-  }
-
-  // Paso 3: Función para abrir el modal
-  function openModalRs(link) {
-    const URL_RS = link.getAttribute('data-url');
-    const RS_TYPE = link.getAttribute('data-type');
-    const MODAL_RS_ID = document.getElementById('modal-resource');
-    const MODAL_RS_BODY_ID = document.getElementById('modal-resource-body');
-
-    if (!MODAL_RS_ID || !MODAL_RS_BODY_ID) {
-      console.error('No se encontró el modal en el DOM.');
-      return;
-    }
-
-    // Limpia el contenido previo
-    MODAL_RS_BODY_ID.innerHTML = '';
-
-    switch (RS_TYPE) {
-      case 'iframe':
-        const iframe = document.createElement('iframe');
-        iframe.src = URL_RS;
-        iframe.width = '100%';
-        iframe.height = '500';
-        iframe.style.border = 'none';
-        MODAL_RS_BODY_ID.appendChild(iframe);
-        break;
-
-      // Puedes agregar más tipos aquí: 'img', 'audio', etc.
-
-      default:
-        console.warn('Tipo de recurso no soportado:', RS_TYPE);
-    }
-
-    // Mostrar modal con Bootstrap
-    const modal = new bootstrap.Modal(MODAL_RS_ID);
-    modal.show();
-  }
-})();
-
-(function ensureBootstrapAndInitModal() {
-  function injectBootstrap(callback) {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';
-    script.onload = callback;
-    document.head.appendChild(script);
-  }
-
-  function setupModalHandler() {
-    document.body.addEventListener('click', function (e) {
-      const link = e.target.closest('a[data-url][data-type]');
-      if (!link) return;
-
-      e.preventDefault();
-
-      const URL_RS = link.getAttribute('data-url');
-      const RS_TYPE = link.getAttribute('data-type');
-      const MODAL_RS = document.getElementById('modal-resource');
-      const MODAL_BODY = document.getElementById('modal-resource-body');
-
-      if (!MODAL_RS || !MODAL_BODY) return;
-
-      // Limpia contenido anterior
-      MODAL_BODY.innerHTML = '';
-
-      if (RS_TYPE === 'iframe') {
-        const iframe = document.createElement('iframe');
-        iframe.src = URL_RS;
-        iframe.width = '100%';
-        iframe.height = '500';
-        iframe.style.border = 'none';
-        MODAL_BODY.appendChild(iframe);
-      }
-
-      // Abre el modal
-      const modal = new bootstrap.Modal(MODAL_RS);
-      modal.show();
-    });
-  }
-
-  // Solo inyectamos si no existe
-  if (typeof bootstrap === 'undefined') {
-    injectBootstrap(setupModalHandler);
-  } else {
-    setupModalHandler();
-  }
-})();
