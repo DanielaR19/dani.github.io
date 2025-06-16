@@ -721,7 +721,7 @@ function addListenerToRs() {
         iframe.id = 'rs-element';
         iframe.src = url;
         iframe.width = '100%';
-        iframe.height = '60%'; 
+        iframe.height = '600'; 
         iframe.frameBorder = '0';
         return iframe;
     }
