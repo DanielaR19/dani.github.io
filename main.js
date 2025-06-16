@@ -640,7 +640,7 @@ function addListenerToRs() {
     (A_LINKS) ? A_LINKS.forEach(link => { link.addEventListener('click', (e) => { openModalRs(e) }); }) : console.error('Error: cannot addEventListener to resource-box');
 }
 /*-------Codigo modificado------*/
-/*function openModalRs(e) {
+function openModalRs(e) {
     e.preventDefault(); // Prevent the link from updating the URL
 
     const URL_RS = e.target.getAttribute('data-url');
@@ -682,8 +682,10 @@ function addListenerToRs() {
     }
 
     /*--- Create resource elements ---*/
-/*    if (MODAL_RS_ID) {
-        $(MODAL_RS_ID).modal('show'); // Modal show 
+    if (MODAL_RS_ID) {
+        /*$(MODAL_RS_ID).modal('show'); // Modal show */
+        const modal = new bootstrap.Modal(document.getElementById('rs-element'));
+modal.show();
 
 
         $(MODAL_RS_ID).on('hidden.bs.modal', function (e) {
@@ -692,9 +694,9 @@ function addListenerToRs() {
         });
 
     } else { console.error('Error: modal-resource could not be found'); }
-}*/
+}
 
-(function(callback) {
+/*(function(callback) {
     if (typeof window.jQuery === 'undefined') {
         console.warn('⚠️ jQuery no detectado, inyectando desde CDN...');
 
