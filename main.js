@@ -640,7 +640,7 @@ function addListenerToRs() {
     (A_LINKS) ? A_LINKS.forEach(link => { link.addEventListener('click', (e) => { openModalRs(e) }); }) : console.error('Error: cannot addEventListener to resource-box');
 }
 
-function openModalRs(e) {
+/*function openModalRs(e) {
     e.preventDefault(); // Prevent the link from updating the URL
 
     const URL_RS = e.target.getAttribute('data-url');
@@ -649,7 +649,7 @@ function openModalRs(e) {
     const MODAL_RS_BODY_ID = document.getElementById('modal-resource-body');
 
     /*--- Create resource elements ---*/
-    switch (RS_TYPE) {
+/*    switch (RS_TYPE) {
         case 'iframe':
             const IFRAME_RS = e.target.getAttribute('iframe-rs');
             const IFRAME_ELEMENT = createIframeEl(IFRAME_RS, URL_RS);
@@ -682,22 +682,124 @@ function openModalRs(e) {
     }
 
     /*--- Create resource elements ---*/
-    if (MODAL_RS_ID) {
-        /*$(MODAL_RS_ID).modal('show'); // Modal show */
-        const modal = new bootstrap.Modal(MODAL_RS_ID);
-        modal.show();
+/*    if (MODAL_RS_ID) {
+        $(MODAL_RS_ID).modal('show'); // Modal show 
 
-        MODAL_RS_ID.addEventListener('hidden.bs.modal', function (e) {
+
+        $(MODAL_RS_ID).on('hidden.bs.modal', function (e) {
             const MODAL_RS_ELEMENT_ID = document.getElementById('rs-element');
             if (MODAL_RS_ELEMENT_ID) MODAL_RS_BODY_ID.removeChild(MODAL_RS_ELEMENT_ID);
-
-      /*  $(MODAL_RS_ID).on('hidden.bs.modal', function (e) {
-            const MODAL_RS_ELEMENT_ID = document.getElementById('rs-element');
-            if (MODAL_RS_ELEMENT_ID) MODAL_RS_BODY_ID.removeChild(MODAL_RS_ELEMENT_ID); */
         });
 
     } else { console.error('Error: modal-resource could not be found'); }
-}
+}*/
+
+(function(waitForjQuery) {
+    let attempts = 0;
+    const interval = setInterval(function () {
+        if (typeof window.jQuery !== 'undefined') {
+            clearInterval(interval);
+            waitForjQuery(window.jQuery);
+        } else if (++attempts > 20) {
+            clearInterval(interval);
+            console.error('❌ jQuery no está disponible después de esperar.');
+        }
+    }, 100);
+})(function($) {
+    console.log('✅ jQuery detectado. Inicializando modal handlers...');
+
+    function createIframeEl(id, url) {
+        const iframe = document.createElement('iframe');
+        iframe.id = 'rs-element';
+        iframe.src = url;
+        iframe.width = '100%';
+        iframe.height = '400';
+        iframe.frameBorder = '0';
+        return iframe;
+    }
+
+    function createImageEl(url) {
+        const img = document.createElement('img');
+        img.id = 'rs-element';
+        img.src = url;
+        img.style.maxWidth = '100%';
+        return img;
+    }
+
+    function createAudioEl(url) {
+        const audio = document.createElement('audio');
+        audio.id = 'rs-element';
+        audio.controls = true;
+        audio.src = url;
+        return audio;
+    }
+
+    function createVideoEl(url) {
+        const video = document.createElement('video');
+        video.id = 'rs-element';
+        video.controls = true;
+        video.src = url;
+        video.style.maxWidth = '100%';
+        return video;
+    }
+
+    function openModalRs(e) {
+        e.preventDefault();
+
+        const URL_RS = e.currentTarget.getAttribute('data-url');
+        const RS_TYPE = e.currentTarget.getAttribute('data-type');
+        const MODAL_RS_ID = document.getElementById('modal-resource');
+        const MODAL_RS_BODY_ID = document.getElementById('modal-resource-body');
+
+        if (!MODAL_RS_BODY_ID || !MODAL_RS_ID) {
+            console.error('❌ No se encontraron los elementos del modal');
+            return;
+        }
+
+        let elementToAdd;
+
+        switch (RS_TYPE) {
+            case 'iframe':
+                const iframeId = e.currentTarget.getAttribute('iframe-rs') || 'rs-iframe';
+                elementToAdd = createIframeEl(iframeId, URL_RS);
+                break;
+            case 'img':
+                elementToAdd = createImageEl(URL_RS);
+                break;
+            case 'audio':
+                elementToAdd = createAudioEl(URL_RS);
+                break;
+            case 'video':
+                elementToAdd = createVideoEl(URL_RS);
+                break;
+            default:
+                console.error('❌ Tipo de recurso no reconocido');
+                return;
+        }
+
+        MODAL_RS_BODY_ID.appendChild(elementToAdd);
+
+        $(MODAL_RS_ID).modal('show');
+
+        $(MODAL_RS_ID).on('hidden.bs.modal', function () {
+            const MODAL_RS_ELEMENT_ID = document.getElementById('rs-element');
+            if (MODAL_RS_ELEMENT_ID) {
+                MODAL_RS_BODY_ID.removeChild(MODAL_RS_ELEMENT_ID);
+            }
+        });
+    }
+
+    // ⏳ Esperar al DOM antes de buscar los elementos
+    $(document).ready(function() {
+        // Selecciona todos los elementos clicables con data-url y data-type
+        $('[data-url][data-type]').each(function() {
+            $(this).on('click', openModalRs);
+        });
+
+        console.log('✅ Listeners de modal inyectados automáticamente');
+    });
+});
+
 
 function createIframeEl(IFRAME_RS, URL_RS) {
     const DIV_IFRAME = document.createElement('div');
