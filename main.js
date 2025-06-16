@@ -681,25 +681,6 @@ function openModalRs(e) {
             break;
     }
 
-    (function loadBootstrapIfNeeded(callback) {
-        if (typeof bootstrap === 'undefined') {
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';
-            script.onload = callback;
-            document.head.appendChild(script);
-        } else {
-            callback();
-        }
-    })(function () {
-        // Ahora bootstrap ya está disponible, puedes ejecutar tus modales aquí
-        document.body.addEventListener('click', function (e) {
-            const link = e.target.closest('a[data-url][data-type]');
-            if (!link) return;
-            openModalRs({ preventDefault: () => { }, target: link });
-        });
-    });
-
-
     /*--- Create resource elements ---*/
     if (MODAL_RS_ID) {
         /*$(MODAL_RS_ID).modal('show'); // Modal show */
@@ -708,7 +689,8 @@ function openModalRs(e) {
 
 
         $(MODAL_RS_ID).on('hidden.bs.modal', function (e) {
-            const MODAL_RS_ELEMENT_ID = document.getElementById('rs-element');
+            /*const MODAL_RS_ELEMENT_ID = document.getElementById('rs-element');*/
+            const modal = new bootstrap.Modal(document.getElementById('modal-resource'));
             if (MODAL_RS_ELEMENT_ID) MODAL_RS_BODY_ID.removeChild(MODAL_RS_ELEMENT_ID);
         });
 
@@ -896,3 +878,24 @@ function createVideoEl(URL_RS) {
 
     return VIDEO_BOX;
 }
+
+(function loadBootstrapAndInit() {
+  if (typeof bootstrap === 'undefined') {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';
+    script.onload = initModals;
+    document.head.appendChild(script);
+  } else {
+    initModals();
+  }
+
+  function initModals() {
+    document.body.addEventListener('click', function (e) {
+      const target = e.target.closest('a[data-url][data-type]');
+      if (!target) return;
+
+      e.preventDefault();
+      openModalRs({ preventDefault: () => {}, target });
+    });
+  }
+})();
