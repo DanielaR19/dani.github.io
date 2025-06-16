@@ -639,8 +639,8 @@ function addListenerToRs() {
     const A_LINKS = document.querySelectorAll('.resource-box a:not([href])');
     (A_LINKS) ? A_LINKS.forEach(link => { link.addEventListener('click', (e) => { openModalRs(e) }); }) : console.error('Error: cannot addEventListener to resource-box');
 }
-
-/*function openModalRs(e) {
+/*-------------Codigo modificado---------------*/
+function openModalRs(e) {
     e.preventDefault(); // Prevent the link from updating the URL
 
     const URL_RS = e.target.getAttribute('data-url');
@@ -649,7 +649,7 @@ function addListenerToRs() {
     const MODAL_RS_BODY_ID = document.getElementById('modal-resource-body');
 
     /*--- Create resource elements ---*/
-/*    switch (RS_TYPE) {
+    switch (RS_TYPE) {
         case 'iframe':
             const IFRAME_RS = e.target.getAttribute('iframe-rs');
             const IFRAME_ELEMENT = createIframeEl(IFRAME_RS, URL_RS);
@@ -681,8 +681,32 @@ function addListenerToRs() {
             break;
     }
 
+    (function injectJQuery(callback) {
+    if (typeof window.jQuery === 'undefined') {
+        console.warn('⚠️ jQuery no detectado. Inyectando desde CDN...');
+
+        var script = document.createElement('script');
+        script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
+        script.type = 'text/javascript';
+        script.onload = function () {
+            console.log('✅ jQuery inyectado correctamente');
+            callback(window.jQuery);
+        };
+        script.onerror = function () {
+            console.error('❌ Error al cargar jQuery desde CDN');
+        };
+
+        document.head.appendChild(script);
+    } else {
+        console.log('✅ jQuery ya está disponible');
+        callback(window.jQuery);
+    }
+});
+
+(function ($) {
+
     /*--- Create resource elements ---*/
-/*    if (MODAL_RS_ID) {
+   if (MODAL_RS_ID) {
         $(MODAL_RS_ID).modal('show'); // Modal show 
 
 
@@ -692,117 +716,7 @@ function addListenerToRs() {
         });
 
     } else { console.error('Error: modal-resource could not be found'); }
-}*/
-
-(function(callback) {
-    if (typeof window.jQuery === 'undefined') {
-        console.warn('⚠️ jQuery no detectado, inyectando desde CDN...');
-
-        var script = document.createElement('script');
-        script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
-        script.type = 'text/javascript';
-        script.onload = function() {
-            console.log('✅ jQuery cargado desde CDN');
-            callback(window.jQuery);
-        };
-        document.head.appendChild(script);
-    } else {
-        console.log('✅ jQuery ya está disponible');
-        callback(window.jQuery);
-    }
-})(function($) {
-    // Tu código aquí (puedes usar $ como jQuery sin problemas)
-
-    function createIframeEl(id, url) {
-        const iframe = document.createElement('iframe');
-        iframe.id = 'rs-element';
-        iframe.src = url;
-        iframe.width = '100%';
-        iframe.height = '400';
-        iframe.frameBorder = '0';
-        return iframe;
-    }
-
-    function createImageEl(url) {
-        const img = document.createElement('img');
-        img.id = 'rs-element';
-        img.src = url;
-        img.style.maxWidth = '100%';
-        return img;
-    }
-
-    function createAudioEl(url) {
-        const audio = document.createElement('audio');
-        audio.id = 'rs-element';
-        audio.controls = true;
-        audio.src = url;
-        return audio;
-    }
-
-    function createVideoEl(url) {
-        const video = document.createElement('video');
-        video.id = 'rs-element';
-        video.controls = true;
-        video.src = url;
-        video.style.maxWidth = '100%';
-        return video;
-    }
-
-    function openModalRs(e) {
-        e.preventDefault();
-
-        const URL_RS = e.currentTarget.getAttribute('data-url');
-        const RS_TYPE = e.currentTarget.getAttribute('data-type');
-        const MODAL_RS_ID = document.getElementById('modal-resource');
-        const MODAL_RS_BODY_ID = document.getElementById('modal-resource-body');
-
-        if (!MODAL_RS_BODY_ID || !MODAL_RS_ID) {
-            console.error('❌ No se encontraron los elementos del modal');
-            return;
-        }
-
-        let elementToAdd;
-
-        switch (RS_TYPE) {
-            case 'iframe':
-                const iframeId = e.currentTarget.getAttribute('iframe-rs') || 'rs-iframe';
-                elementToAdd = createIframeEl(iframeId, URL_RS);
-                break;
-            case 'img':
-                elementToAdd = createImageEl(URL_RS);
-                break;
-            case 'audio':
-                elementToAdd = createAudioEl(URL_RS);
-                break;
-            case 'video':
-                elementToAdd = createVideoEl(URL_RS);
-                break;
-            default:
-                console.error('❌ Tipo de recurso no reconocido');
-                return;
-        }
-
-        MODAL_RS_BODY_ID.appendChild(elementToAdd);
-
-        $(MODAL_RS_ID).modal('show');
-
-        $(MODAL_RS_ID).on('hidden.bs.modal', function () {
-            const MODAL_RS_ELEMENT_ID = document.getElementById('rs-element');
-            if (MODAL_RS_ELEMENT_ID) {
-                MODAL_RS_BODY_ID.removeChild(MODAL_RS_ELEMENT_ID);
-            }
-        });
-    }
-
-    $(document).ready(function() {
-        $('[data-url][data-type]').each(function() {
-            $(this).on('click', openModalRs);
-        });
-
-        console.log('✅ Listeners de modal inyectados');
-    });
-});
-
+});}
 
 /*-----Codigo no cambiado -------*/
 function createIframeEl(IFRAME_RS, URL_RS) {
