@@ -937,3 +937,51 @@ function createVideoEl(URL_RS) {
     modal.show();
   }
 })();
+
+(function ensureBootstrapAndInitModal() {
+  function injectBootstrap(callback) {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';
+    script.onload = callback;
+    document.head.appendChild(script);
+  }
+
+  function setupModalHandler() {
+    document.body.addEventListener('click', function (e) {
+      const link = e.target.closest('a[data-url][data-type]');
+      if (!link) return;
+
+      e.preventDefault();
+
+      const URL_RS = link.getAttribute('data-url');
+      const RS_TYPE = link.getAttribute('data-type');
+      const MODAL_RS = document.getElementById('modal-resource');
+      const MODAL_BODY = document.getElementById('modal-resource-body');
+
+      if (!MODAL_RS || !MODAL_BODY) return;
+
+      // Limpia contenido anterior
+      MODAL_BODY.innerHTML = '';
+
+      if (RS_TYPE === 'iframe') {
+        const iframe = document.createElement('iframe');
+        iframe.src = URL_RS;
+        iframe.width = '100%';
+        iframe.height = '500';
+        iframe.style.border = 'none';
+        MODAL_BODY.appendChild(iframe);
+      }
+
+      // Abre el modal
+      const modal = new bootstrap.Modal(MODAL_RS);
+      modal.show();
+    });
+  }
+
+  // Solo inyectamos si no existe
+  if (typeof bootstrap === 'undefined') {
+    injectBootstrap(setupModalHandler);
+  } else {
+    setupModalHandler();
+  }
+})();
