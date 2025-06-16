@@ -721,7 +721,7 @@ function addListenerToRs() {
         iframe.id = 'rs-element';
         iframe.src = url;
         iframe.width = '100%';
-/*        iframe.height = '800'; */
+        iframe.height = '60%'; 
         iframe.frameBorder = '0';
         return iframe;
     }
@@ -770,19 +770,15 @@ function addListenerToRs() {
             case 'iframe':
                 const iframeId = e.currentTarget.getAttribute('iframe-rs') || 'rs-iframe';
                 elementToAdd = createIframeEl(iframeId, URL_RS);
-                MODAL_DIALOG.classList.add('modal-xl');
                 break;
             case 'img':
                 elementToAdd = createImageEl(URL_RS);
-                MODAL_DIALOG.classList.add('modal-lg');
                 break;
             case 'audio':
                 elementToAdd = createAudioEl(URL_RS);
-                MODAL_DIALOG.classList.add('modal-sm');
                 break;
             case 'video':
                 elementToAdd = createVideoEl(URL_RS);
-                MODAL_DIALOG.classList.add('modal-lg');
                 break;
             default:
                 console.error('❌ Tipo de recurso no reconocido');
