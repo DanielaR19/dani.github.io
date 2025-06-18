@@ -628,6 +628,7 @@ function createModalTools() {
     /* ----- Create Collapse Buttons ----- */
 
     DIV_MODAL_HEADER_BTN.setAttribute('data-bs-dismiss', 'modal');
+    DIV_MODAL_HEADER.appendChild(DIV_MODAL_HEADER_BTN);
 
     document.body.appendChild(DIV_MODAL_BOX); // Add modal to body
 }
