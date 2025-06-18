@@ -649,6 +649,8 @@ function openModalRs(e) {
     const RS_TYPE = e.target.getAttribute('data-type');
     const MODAL_RS_ID = document.getElementById('modal-resource');
     const MODAL_RS_BODY_ID = document.getElementById('modal-resource-body');
+    DIV_MODAL_HEADER_BTN.setAttribute('data-bs-dismiss', 'modal'); //Cambiar la clase
+    console.log('Cambio realizado');
 
     /*--- Create resource elements ---*/
     switch (RS_TYPE) {
