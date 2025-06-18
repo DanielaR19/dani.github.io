@@ -545,6 +545,7 @@ function createModalTools() {
     const DIV_MODAL_HEADER_BTN = document.createElement('button');
     DIV_MODAL_HEADER_BTN.setAttribute('type', 'button');
     DIV_MODAL_HEADER_BTN.className = 'close';
+    DIV_MODAL_HEADER_BTN.removeAttribute('data-dismiss');
     DIV_MODAL_HEADER_BTN.setAttribute('data-bs-dismiss', 'modal');
     DIV_MODAL_HEADER.appendChild(DIV_MODAL_HEADER_BTN);
 
