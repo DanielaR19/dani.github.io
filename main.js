@@ -545,16 +545,10 @@ function createModalTools() {
     const DIV_MODAL_HEADER_BTN = document.createElement('button');
     DIV_MODAL_HEADER_BTN.setAttribute('type', 'button');
     DIV_MODAL_HEADER_BTN.className = 'btn-close';
-    DIV_MODAL_HEADER_BTN.setAttribute('data-bs-dismiss', 'modal');
+    //DIV_MODAL_HEADER_BTN.setAttribute('data-bs-dismiss', 'modal');
+    DIV_MODAL_HEADER_BTN.setAttribute('data-bs-titulo', 'ejemplo');
     DIV_MODAL_HEADER_BTN.setAttribute('aria-label', 'Close');
     DIV_MODAL_HEADER.appendChild(DIV_MODAL_HEADER_BTN);
-
-    const DIV_MODAL_DANY_BTN = document.createElement('button');
-    DIV_MODAL_DANY_BTN.setAttribute('type', 'button');
-    DIV_MODAL_DANY_BTN.className = 'btn-close';
-    DIV_MODAL_DANY_BTN.setAttribute('data-bs-dismiss', 'modal');
-    DIV_MODAL_DANY_BTN.setAttribute('aria-label', 'Close');
-    DIV_MODAL_HEADER.appendChild(DIV_MODAL_DANY_BTN);
 
     const DIV_MODAL_HEADER_BTN_ICON = document.createElement('div');
     DIV_MODAL_HEADER_BTN_ICON.className = 'custom-modal_icon';
